@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace App2
@@ -18,14 +19,15 @@ namespace App2
         public GameState State { get; private set; }
         public IReadOnlyList<Color> Slots { get { return moves; } }
         public int CurrentSlot { get; private set; }
+
         List<Color> moves = new List<Color>(Constants.PIXELS);
         ILEDController LEDController;
 
         public Simon(ILEDController controller)
         {
             LEDController = controller;
+
             State = GameState.NotYetStarted;
-            StartRound();
         }
 
         private Color randomMove()
@@ -51,6 +53,22 @@ namespace App2
             CurrentSlot = 0;
 
             DisplayRound();
+
+            resetTimer();
+        }
+
+        Timer turnTimeout;
+
+        private void resetTimer() {
+            TimerCallback timerElapsed = (cancelledRound) =>
+            {
+                if ((int)cancelledRound == moves.Count && State == GameState.Playing)
+                {
+                    Play(Color.Black);
+                }
+            };
+
+            turnTimeout = new Timer(timerElapsed, moves.Count, Constants.MSEC_TURN_TIMEOUT, Timeout.Infinite);
         }
 
         void DisplayRound()
@@ -60,6 +78,7 @@ namespace App2
             for (int i = 0; i < moves.Count; i++)
             {
                 LEDController.SetColor(i, moves[i]);
+                AudioPlayer.playAudio(Constants.ColorAudio[moves[i]]);
                 Task.Delay(Constants.MSEC_STEP_FLASH_ON).Wait();
                 LEDController.Clear();
                 Task.Delay(Constants.MSEC_STEP_FLASH_OFF).Wait();
@@ -76,6 +95,14 @@ namespace App2
             {
                 throw new InvalidOperationException("wat");
             }
+
+            resetTimer();
+
+            try
+            {
+                AudioPlayer.playAudio(Constants.ColorAudio[move]);
+            }
+            catch (Exception) { };
 
             if (moves[CurrentSlot] != move)
             {
