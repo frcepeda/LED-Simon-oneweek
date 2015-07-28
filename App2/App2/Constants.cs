@@ -59,6 +59,8 @@ namespace App2
 
         public const int MSEC_TURN_TIMEOUT = 5000;
 
+        public const int AUDIO_CHANNELS = 10;
+
         public static readonly IEnumerable<Color> Colors = new List<Color> { Color.Blue , Color.Red, Color.Green, Color.Yellow };
 
         public static readonly IReadOnlyDictionary<Color, int> PinNumber = new Dictionary<Color, int>()

@@ -46,13 +46,13 @@ namespace App2
                 throw new InvalidOperationException("wat");
             }
 
-            State = GameState.Playing;
-
             Color newMove = randomMove();
             moves.Add(newMove);
             CurrentSlot = 0;
 
             DisplayRound();
+
+            State = GameState.Playing;
 
             resetTimer();
         }

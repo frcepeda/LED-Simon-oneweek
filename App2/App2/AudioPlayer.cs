@@ -13,12 +13,15 @@ namespace App2
 {
     class AudioPlayer
     {
-        static MediaElement media;
         static CoreDispatcher UiDispatcher;
+
+        static int curr = 0;
+        static IList<MediaElement> mediaElements = new List<MediaElement>();
 
         public static void SetUp(MediaElement media, CoreDispatcher UiDispatcher)
         {
-            AudioPlayer.media = media;
+            for (int i = 0; i < Constants.AUDIO_CHANNELS; i++)
+                mediaElements.Add(new MediaElement());
             AudioPlayer.UiDispatcher = UiDispatcher;
         }
 
@@ -26,6 +29,8 @@ namespace App2
         {
             Task shutUpCompiler = UiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
              {
+                 var media = mediaElements[curr++];
+                 curr = (curr + 1) % Constants.AUDIO_CHANNELS;
                  media.SetSource(audio.stream, audio.mimeType);
                  media.AutoPlay = true;
                  media.Play();
