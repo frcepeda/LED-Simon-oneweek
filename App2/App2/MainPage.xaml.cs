@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -41,11 +42,12 @@ namespace App2
             public void LoseGame()
             {
                 Debug.WriteLine("Game lost!");
+                Task.Delay(1000).Wait();
             }
 
             public void SetColor(int index, Color color)
             {
-                while (colors.Count <= index) colors.Add(Color.Blue);
+                while (colors.Count <= index) colors.Add(Color.Black);
                 colors[index] = color;
                 foreach (var c in colors)
                     Debug.Write(c + " ");
@@ -55,11 +57,13 @@ namespace App2
             public void WinGame()
             {
                 Debug.WriteLine("Game won!");
+                Task.Delay(1000).Wait();
             }
 
             public void WinRound()
             {
                 Debug.WriteLine("Round won!");
+                Task.Delay(1000).Wait();
             }
         }
 
@@ -67,10 +71,14 @@ namespace App2
         {
             base.OnNavigatedTo(e);
 
+            AudioPlayer.SetUp(media, Dispatcher);
+
             Simon game = new Simon(new DummyLEDController()); // FIXME
 
             foreach (var c in Constants.Colors)
             {
+                Debug.WriteLine(Constants.ColorAudio[c]); // kludge to force loading the file...
+
                 new Button(c).ButtonPressed += (s) =>
                 {
                     if (game.State != GameState.Playing) return;
@@ -78,6 +86,8 @@ namespace App2
                     game.Play(s.Color);
                 };
             }
+
+            game.StartRound();
         }
     }
 }
