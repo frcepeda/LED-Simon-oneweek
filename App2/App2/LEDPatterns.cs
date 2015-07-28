@@ -42,12 +42,12 @@ namespace App2
             return (byte) (r.Next() % 256);
         }
 
-        private Constants.RGB RandomRGB()
+        private RGB RandomRGB()
         {
-            return new Constants.RGB(RandomColorValue(), RandomColorValue(), RandomColorValue());
+            return new RGB(RandomColorValue(), RandomColorValue(), RandomColorValue());
         }
 
-        private List<Constants.RGB> LEDStripColors = new List<Constants.RGB>(Constants.PIXELS);
+        private List<RGB> LEDStripColors = new List<RGB>(Constants.PIXELS);
 
         private void DisplayColors()
         {
@@ -84,7 +84,7 @@ namespace App2
 
         private void CircleColorsByOnePixel()
         {
-            Constants.RGB last = LEDStripColors.Last();
+            RGB last = LEDStripColors.Last();
             for (int i = Constants.PIXELS-1; i > 0; i--)
             {
                 LEDStripColors[i] = LEDStripColors[i - 1];

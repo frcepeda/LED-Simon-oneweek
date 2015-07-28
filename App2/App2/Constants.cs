@@ -9,6 +9,44 @@ using Windows.Storage.Streams;
 
 namespace App2
 {
+    public enum Color
+    {
+        Red,
+        Blue,
+        Green,
+        Yellow,
+        DarkTurquoise,
+        BlueViolet,
+        Fuschia,
+        Cyan,
+        Indigo,
+        LawnGreen,
+        Black,
+        White,
+    };
+
+    public struct RGB
+    {
+        byte red, green, blue;
+        public RGB(byte red, byte green, byte blue)
+        {
+            this.red = red;
+            this.green = green;
+            this.blue = blue;
+        }
+    }
+
+    public struct Audio
+    {
+        public IRandomAccessStream stream;
+        public string mimeType;
+        public Audio(string p, string m)
+        {
+            stream = new FileStream(p, FileMode.Open, FileAccess.Read).AsRandomAccessStream();
+            mimeType = m;
+        }
+    }
+
     class Constants
     {
         public const int PIXELS = 30;
@@ -29,17 +67,6 @@ namespace App2
             { Color.Blue, 6 },
         };
 
-        public struct RGB
-        {
-            byte red, green, blue;
-            public RGB(byte red, byte green, byte blue)
-            {
-                this.red = red;
-                this.green = green;
-                this.blue = blue;
-            }
-        }
-
         public static readonly IReadOnlyDictionary<Color, RGB> ColorToRGB = new Dictionary<Color, RGB>()
         {
             { Color.Yellow, new RGB(255, 255, 0)},
@@ -52,23 +79,9 @@ namespace App2
             { Color.Cyan, new RGB(0,255,255)},
             { Color.Indigo, new RGB(75,0,130)},
             { Color.LawnGreen, new RGB(124,252,0)},
+            { Color.Black, new RGB(0,0,0)},
+            { Color.White, new RGB(255,255,255)},
         };
-
-        private static IRandomAccessStream openFileAsStream(string path)
-        {
-             return new FileStream(path, FileMode.Open, FileAccess.Read).AsRandomAccessStream();
-        }
-
-        public struct Audio
-        {
-            public IRandomAccessStream stream;
-            public string mimeType;
-            public Audio(string p, string m)
-            {
-                stream = openFileAsStream(p);
-                mimeType = m;
-            }
-        }
 
         public static readonly IReadOnlyDictionary<Color, Audio> ColorAudio = new Dictionary<Color, Audio>()
         {

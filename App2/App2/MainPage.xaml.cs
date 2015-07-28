@@ -45,7 +45,7 @@ namespace App2
 
             public void SetColor(int index, Color color)
             {
-                while (colors.Count <= index) colors.Add(Color.Blue);
+                while (colors.Count <= index) colors.Add(Color.Black);
                 colors[index] = color;
                 foreach (var c in colors)
                     Debug.Write(c + " ");

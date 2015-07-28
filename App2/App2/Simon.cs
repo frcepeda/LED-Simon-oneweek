@@ -6,21 +6,6 @@ using System.Threading.Tasks;
 
 namespace App2
 {
-    public enum Color
-    {
-        Red,
-        Blue,
-        Green,
-        Yellow,
-        DarkTurquoise,
-        BlueViolet,
-        Fuschia,
-        Cyan,
-        Indigo,
-        LawnGreen,
-    };
-
-
     public enum GameState
     {
         NotYetStarted,

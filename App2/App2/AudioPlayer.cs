@@ -22,7 +22,7 @@ namespace App2
             AudioPlayer.UiDispatcher = UiDispatcher;
         }
 
-        public static void playAudio(Constants.Audio audio)
+        public static void playAudio(Audio audio)
         {
             Task shutUpCompiler = UiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
              {
