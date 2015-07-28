@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
-
 // Expected methods
 // SetPixel(int index, RGB color);
 // ClearStrip();
@@ -57,7 +55,7 @@ namespace App2
             //ClearStrip();
             for (int i = 0; i < Constants.PIXELS; i++)
             {
-                //SetPixel(i, LEDStripColors[i]);
+                SetPixel(i, LEDStripColors[i]);
             }
         }
         private void Chase(int repeats, uint wait)
@@ -71,7 +69,7 @@ namespace App2
             }
 
         }
-        private void InitRandomColors()
+        public void InitRandomColors()
         {
             for (int i = 0; i < Constants.PIXELS; i++)
             {
@@ -97,7 +95,7 @@ namespace App2
         }
 
 
-        private void ContinuousBlinking(uint wait, int repeats)
+        public void ContinuousBlinking(uint wait, int repeats)
         {
             for (int i = 0; i < repeats; i++)
             {
@@ -110,7 +108,7 @@ namespace App2
         }
 
 
-        private void theaterChaseRainbow(uint wait) {
+        public void theaterChaseRainbow(uint wait) {
           for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
             for (int q=0; q < 3; q++) {
               for (int i=0; i <Constants.PIXELS; i=i+3) {
@@ -127,8 +125,7 @@ namespace App2
           }
         }
 
-        // Slightly different, this makes the rainbow equally distributed throughout
-        private void RainbowCycle(uint wait) {
+        public void RainbowCycle(uint wait) {
           uint i, j;
 
           for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
@@ -155,6 +152,8 @@ namespace App2
           WheelPos -= 170;
           return new RGB(WheelPos * 3, 255 - WheelPos * 3, 0);
         }
+
+
 
 
     }
