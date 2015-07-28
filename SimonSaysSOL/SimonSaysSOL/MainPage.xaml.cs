@@ -49,7 +49,7 @@ namespace SimonSaysSOL
             public void LoseGame()
             {
                 Debug.WriteLine("Game lost!");
-                //led.LoseGame();
+                led.LoseGame();
                 Task.Delay(1000).Wait();
             }
 
@@ -60,20 +60,20 @@ namespace SimonSaysSOL
                 foreach (var c in colors)
                     Debug.Write(c + " ");
                 Debug.WriteLine("");
-                led.SetColor(index, color);
+                led.SetColor(index + 1, color);
             }
 
             public void WinGame()
             {
                 Debug.WriteLine("Game won!");
-                //led.WinGame();
+                led.WinGame();
                 Task.Delay(1000).Wait();
             }
 
             public void WinRound()
             {
                 Debug.WriteLine("Round won!");
-                //led.WinRound();
+                led.WinRound();
                 Task.Delay(1000).Wait();
             }
         }
@@ -92,10 +92,13 @@ namespace SimonSaysSOL
 
                 Simon game = new Simon(new DummyLEDController());
 
+                Task.Run(() => LEDStrip.FREAKOUT(10));
+
                 foreach (var c in Constants.Colors)
                 {
-                    new Button(c).ButtonPressed += (s) =>
+                    Debug.WriteLine(Constants.ColorAudio[c]);
 
+                    new Button(c).ButtonPressed += (s) =>
                     {
                         if (game.State != GameState.Playing) return;
 

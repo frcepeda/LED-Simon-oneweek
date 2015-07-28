@@ -143,6 +143,19 @@ namespace SimonSaysSOL
             }
         }
 
+        public static void FREAKOUTLOSE(int freakCount)
+        {
+            Random r = new Random();
+            for (int j = 0; j < freakCount; j++)
+            {
+                for (byte i = 0; i < NUMBER_OF_PIXELS; i++)
+                {
+                    SetPixel(i, (byte)r.Next(256), (byte)r.Next(0), (byte)r.Next(0));
+                }
+                UpdateStrip();
+            }
+        }
+
         public static void Clear()
         {
             SetAllPixelsAndUpdate(0,0,0);
