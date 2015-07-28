@@ -51,10 +51,10 @@ namespace App2
 
         private void DisplayColors()
         {
-            ClearStrip();
+            //ClearStrip();
             for (int i = 0; i < Constants.PIXELS; i++)
             {
-                SetPixel(i, LEDStripColors[i]);
+                //SetPixel(i, LEDStripColors[i]);
             }
         }
         private void Chase()

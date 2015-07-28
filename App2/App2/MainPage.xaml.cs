@@ -67,6 +67,8 @@ namespace App2
         {
             base.OnNavigatedTo(e);
 
+            AudioPlayer.SetUp(media, Dispatcher);
+
             Simon game = new Simon(new DummyLEDController()); // FIXME
 
             foreach (var c in Constants.Colors)
