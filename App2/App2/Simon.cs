@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -28,12 +29,6 @@ namespace App2
             LEDController = controller;
 
             State = GameState.NotYetStarted;
-
-            foreach (Color c in Constants.Colors)
-            {
-                AudioPlayer.playAudio(Constants.ColorAudio[c]);
-                Task.Delay(500).Wait();
-            }
         }
 
         private Color randomMove()
@@ -50,6 +45,20 @@ namespace App2
             if (State != GameState.NotYetStarted || moves.Count == Constants.PIXELS)
             {
                 throw new InvalidOperationException("wat");
+            }
+
+            if (false && moves.Count == 0) // first round
+            {
+                Debug.WriteLine("Setting up...");
+                Task.Delay(2000).Wait();
+
+                foreach (Color c in Constants.Colors)
+                {
+                    AudioPlayer.playAudio(Constants.ColorAudio[c]);
+                    Task.Delay(1000).Wait();
+                }
+
+                Task.Delay(2000).Wait();
             }
 
             Color newMove = randomMove();

@@ -48,7 +48,7 @@ namespace SimonSaysSOL
         /// <param name="red"></param>
         /// <param name="green"></param>
         /// <param name="blue"></param>
-        public static void SetAllPixelsAndUpdate(byte red, byte green, byte blue)
+        private static void SetAllPixelsAndUpdate(byte red, byte green, byte blue)
         {
             SetAllPixels(red, green, blue);
             UpdateStrip();
@@ -60,7 +60,7 @@ namespace SimonSaysSOL
         /// <param name="red">The amount of red to set</param>
         /// <param name="green">The amount of green to set</param>
         /// <param name="blue">The amount of blue to set</param>
-        public static void SetAllPixels(byte red, byte green, byte blue)
+        private static void SetAllPixels(byte red, byte green, byte blue)
         {
             for (byte i = 0; i < NUMBER_OF_PIXELS; ++i)
             {
@@ -74,14 +74,35 @@ namespace SimonSaysSOL
             public byte blue;
         }
 
-        public static void SetPixel(int pixel, RGB color)
+        private static void SetPixel(int pixel, RGB color)
         {
             SetPixel((byte)pixel, color.red, color.green, color.blue);
         }
 
-        public static void CrissCross(RGB first, RGB second)
+        public static void CrissCross()
         {
-            
+            for(byte i=0; i<15; i++)
+            {
+                for (byte j = 0; j < 15; i++)
+                {
+                    if (j < i)
+                    {
+                        SetPixel(j, 255, 255, 255);
+                        SetPixel((byte)(30 - j), 255, 255, 255);
+                    }
+                    else if(j < (15 - i))
+                    {
+                        SetPixel(j, 255, 0, 0);
+                        SetPixel((byte)(30 - j), 0, 0, 255);
+                    }
+                    else
+                    {
+                        SetPixel(j, 255, 0, 255);
+                        SetPixel((byte)(30 - j), 255, 0, 255);
+                    }
+                }
+                UpdateStrip();
+            }
         }
 
         /// <summary>

@@ -45,15 +45,11 @@ namespace SimonSaysSOL
         /// <param name="e"></param>
         private async void FlipOut_Click(object sender, RoutedEventArgs e)
         {
-            LEDStrip.FREAKOUT(200);
+            LEDStrip.FREAKOUT(10);
              //LEDStrip.SetAllPixelsAndUpdate((byte)r.Next(256), (byte)r.Next(256), (byte)r.Next(256));
             //await Task.Delay(100);
         }
 
-        private async void CrissCross_Click(object sender, RoutedEventArgs e)
-        {
-            //LEDStrip.CrissCross();
-        }
 
         private void Off_Click(object sender, RoutedEventArgs e)
         {

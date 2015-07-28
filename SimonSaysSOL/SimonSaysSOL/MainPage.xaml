@@ -9,7 +9,7 @@
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button Name="Red" Click="FlipOut_Click">FlipOut</Button>
-        <Button Name="Green" Click="Off_Click">Off</Button>
+        <Button Name="flip" Click="FlipOut_Click">FlipOut</Button>
+        <Button Name="kill" Click="Off_Click">Off</Button>
     </StackPanel>
 </Page>
