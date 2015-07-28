@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 // Expected methods
 // SetPixel(int index, RGB color);
@@ -36,6 +37,8 @@ namespace App2
             Chase();
         }
 
+        static Timer timer; // From System.Timers
+
         private byte RandomColorValue()
         {
             Random r = new Random();
@@ -49,7 +52,7 @@ namespace App2
 
         private List<RGB> LEDStripColors = new List<RGB>(Constants.PIXELS);
 
-        private void DisplayColors()
+        private void LEDStripShow()
         {
             //ClearStrip();
             for (int i = 0; i < Constants.PIXELS; i++)
@@ -57,20 +60,14 @@ namespace App2
                 //SetPixel(i, LEDStripColors[i]);
             }
         }
-        private void Chase()
+        private void Chase(int repeats, uint wait)
         {
-            /*for (int i = 0; i < 5; i++)
-            {
-                SetPixel(i, Constants.ColorToRGB.Keys[i]);
-                LEDStripColors[i] = Constants.ColorToRGB.Keys[i];
-            }*/
-
             InitRandomColors();
 
-            while (true)
+            for (int i = 0; i < repeats; i++);
             {
                 CircleColorsByOnePixel();
-                Task.Delay(Constants.MSEC_CHASE_SPEED).Wait();
+                Delay(wait);
             }
 
         }
@@ -90,9 +87,78 @@ namespace App2
                 LEDStripColors[i] = LEDStripColors[i - 1];
             }
             LEDStripColors[0] = last;
-            DisplayColors();
+            LEDStripShow();
         }
+
+
+        private void Delay(int millisec)
+        {
+            Task.Delay(millisec).Wait();
+        }
+
+
+        private void ContinuousBlinking(uint wait, int repeats)
+        {
+            for (int i = 0; i < repeats; i++)
+            {
+                LEDStripShow();
+                Delay(wait);
+                ClearStrip();
+                Delay(wait);
+            }
+            
+        }
+
+
+        private void theaterChaseRainbow(uint wait) {
+          for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
+            for (int q=0; q < 3; q++) {
+              for (int i=0; i <Constants.PIXELS; i=i+3) {
+                SetPixel(i+q, Wheel( (i+j) % 255));    //turn every third pixel on
+              }
+              LEDStripShow();
+
+              Delay(wait);
+
+              for (int i=0; i < Constants.PIXELS-3; i=i+3) {
+                SetPixel(i+q, RGB(0,0,0));        //turn every third pixel off
+              }
+            }
+          }
+        }
+
+        // Slightly different, this makes the rainbow equally distributed throughout
+        private void RainbowCycle(uint wait) {
+          uint i, j;
+
+          for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
+            for(i=0; i< Constants.PIXELS; i++) {
+               SetPixel(i, Wheel(((i * 256 / Constants.PIXELS) + j) & 255));
+            }
+            LEDStripShow();
+            Delay(wait);
+          }
+        }
+
+        // Input a value 0 to 255 to get a color value.
+        // The colours are a transition r - g - b - back to r.
+        // modified  from Arduino Strandtest code
+        private RGB Wheel(byte WheelPos) {
+          WheelPos = 255 - WheelPos;
+          if(WheelPos < 85) {
+            return RGB(255 - WheelPos * 3, 0, WheelPos * 3);
+          }
+          if(WheelPos < 170) {
+            WheelPos -= 85;
+            return RGB(0, WheelPos * 3, 255 - WheelPos * 3);
+          }
+          WheelPos -= 170;
+          return RGB(WheelPos * 3, 255 - WheelPos * 3, 0);
+        }
+
 
     }
 
 }
+
+
