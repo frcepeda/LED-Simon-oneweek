@@ -60,7 +60,8 @@ namespace SimonSaysSOL
 
         Timer turnTimeout;
 
-        private void resetTimer() {
+        private void resetTimer()
+        {
             TimerCallback timerElapsed = (cancelledRound) =>
             {
                 if ((int)cancelledRound == moves.Count && State == GameState.Playing)

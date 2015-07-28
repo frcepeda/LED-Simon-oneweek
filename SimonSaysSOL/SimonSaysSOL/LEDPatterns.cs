@@ -35,8 +35,17 @@ namespace SimonSaysSOL
 
         public void SetColor(int index, Color color)
         {
-            RGB rgb = new RGB(0, 0, 0);
-            Constants.ColorToRGB.TryGetValue(color, out rgb);
+            RGB rgb;
+
+            try
+            {
+                rgb = Constants.ColorToRGB[color];
+            }
+            catch (Exception)
+            {
+                rgb = new RGB(0, 0, 0);
+            }
+
             SetColor(index, rgb);
         }
 
