@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage.Streams;
 
 namespace App2
 {
@@ -29,18 +31,14 @@ namespace App2
 
         public struct RGB
         {
-            byte red;
-            byte green;
-            byte blue;
+            byte red, green, blue;
             public RGB(byte red, byte green, byte blue)
             {
                 this.red = red;
                 this.green = green;
                 this.blue = blue;
             }
-
         }
-  
 
         public static readonly IReadOnlyDictionary<Color, RGB> ColorToRGB = new Dictionary<Color, RGB>()
         {
@@ -54,6 +52,30 @@ namespace App2
             { Color.Cyan, new RGB(0,255,255)},
             { Color.Indigo, new RGB(75,0,130)},
             { Color.LawnGreen, new RGB(124,252,0)},
+        };
+
+        private static IRandomAccessStream openFileAsStream(string path)
+        {
+             return new FileStream(path, FileMode.Open, FileAccess.Read).AsRandomAccessStream();
+        }
+
+        public struct Audio
+        {
+            public IRandomAccessStream stream;
+            public string mimeType;
+            public Audio(string p, string m)
+            {
+                stream = openFileAsStream(p);
+                mimeType = m;
+            }
+        }
+
+        public static readonly IReadOnlyDictionary<Color, Audio> ColorAudio = new Dictionary<Color, Audio>()
+        {
+            { Color.Yellow, new Audio("Assets/Sounds/piano-c.wav", "audio/wav")},
+            { Color.Red, new Audio("Assets/Sounds/piano-d.wav", "audio/wav")},
+            { Color.Green, new Audio("Assets/Sounds/piano-e.wav", "audio/wav")},
+            { Color.Blue, new Audio("Assets/Sounds/piano-f.wav", "audio/wav")},
         };
     }
 }

@@ -15,31 +15,22 @@ namespace App2
     {
         static MediaElement media;
         static CoreDispatcher UiDispatcher;
-        static AutoResetEvent mediaEnd = new AutoResetEvent(false);
 
         public static void SetUp(MediaElement media, CoreDispatcher UiDispatcher)
         {
             AudioPlayer.media = media;
             AudioPlayer.UiDispatcher = UiDispatcher;
-
-            UiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                media.MediaEnded += (s, e) => mediaEnd.Set();
-            }).AsTask().Wait();
         }
 
-        public static void playAudio(string path, string mimeType)
+        public static void playAudio(Constants.Audio audio)
         {
-            UiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            Task shutUpCompiler = UiDispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
              {
-                 IRandomAccessStream stream = new FileStream(@"lol.mp3", FileMode.Open, FileAccess.Read).AsRandomAccessStream();
-                 media.SetSource(stream, mimeType);
+                 media.SetSource(audio.stream, audio.mimeType);
                  media.AutoPlay = true;
                  media.Play();
              }
-            ).AsTask().Wait();
-
-            mediaEnd.WaitOne();
+            ).AsTask();
         }
     }
 }

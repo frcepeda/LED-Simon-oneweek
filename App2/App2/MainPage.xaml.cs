@@ -73,8 +73,12 @@ namespace App2
 
             foreach (var c in Constants.Colors)
             {
+                Debug.WriteLine(Constants.ColorAudio[c]); // kludge to force loading the file...
+
                 new Button(c).ButtonPressed += (s) =>
                 {
+                    AudioPlayer.playAudio(Constants.ColorAudio[s.Color]);
+
                     if (game.State != GameState.Playing) return;
 
                     game.Play(s.Color);
