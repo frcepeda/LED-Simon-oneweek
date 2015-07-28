@@ -94,5 +94,10 @@ namespace App2
             { Color.Green, new Audio("Assets/Sounds/piano-e.wav", "audio/wav")},
             { Color.Blue, new Audio("Assets/Sounds/piano-f.wav", "audio/wav")},
         };
+
+        public static Audio LoseAudio = new Audio("Assets/Sounds/gameover.wav", "audio/wav");
+        public static Audio WinAudio = new Audio("Assets/Sounds/win_game.wav", "audio/wav");
+        public static Audio TimeOutAudio = new Audio("Assets/Sounds/time_out.wav", "audio/wav");
+        public static Audio RoundWonAudio = new Audio("Assets/Sounds/round_won.wav", "audio/wav");
     }
 }

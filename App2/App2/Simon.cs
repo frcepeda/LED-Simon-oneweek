@@ -28,6 +28,12 @@ namespace App2
             LEDController = controller;
 
             State = GameState.NotYetStarted;
+
+            foreach (Color c in Constants.Colors)
+            {
+                AudioPlayer.playAudio(Constants.ColorAudio[c]);
+                Task.Delay(500).Wait();
+            }
         }
 
         private Color randomMove()
@@ -64,6 +70,7 @@ namespace App2
             {
                 if ((int)cancelledRound == moves.Count && State == GameState.Playing)
                 {
+                    AudioPlayer.playAudio(Constants.TimeOutAudio);
                     Play(Color.Black);
                 }
             };
@@ -107,18 +114,21 @@ namespace App2
             if (moves[CurrentSlot] != move)
             {
                 State = GameState.Ended;
+                AudioPlayer.playAudio(Constants.LoseAudio);
                 LEDController.LoseGame();
                 return;
             }
             else if (CurrentSlot == Constants.PIXELS - 1) // The game was won.
             {
                 State = GameState.Ended;
+                AudioPlayer.playAudio(Constants.WinAudio);
                 LEDController.WinGame();
                 return;
             }
             else if (CurrentSlot == moves.Count - 1) // The round was won.
             {
                 State = GameState.NotYetStarted;
+                AudioPlayer.playAudio(Constants.RoundWonAudio);
                 LEDController.WinRound();
                 StartRound();
                 return;

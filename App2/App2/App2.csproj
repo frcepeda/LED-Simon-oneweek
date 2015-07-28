@@ -121,7 +121,7 @@
     <Content Include="Assets\Sounds\piano-d.wav" />
     <Content Include="Assets\Sounds\piano-e.wav" />
     <Content Include="Assets\Sounds\piano-f.wav" />
-    <Content Include="Assets\Sounds\start_game.wav" />
+    <Content Include="Assets\Sounds\round_won.wav" />
     <Content Include="Assets\Sounds\time_out.wav" />
     <Content Include="Assets\Sounds\win_game.wav" />
     <Content Include="Properties\Default.rd.xml" />
