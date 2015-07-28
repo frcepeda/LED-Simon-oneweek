@@ -116,6 +116,10 @@
     <None Include="App2_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Sounds\piano-c.wav" />
+    <Content Include="Assets\Sounds\piano-d.wav" />
+    <Content Include="Assets\Sounds\piano-e.wav" />
+    <Content Include="Assets\Sounds\piano-f.wav" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
