@@ -21,7 +21,9 @@ namespace SimonSaysSOL
         private static DispatcherTimer timeout;
         private static IStream connection;
 
-        private static bool _init = false;
+        public delegate void readyDelegate();
+        public static event readyDelegate ready;
+
         public static async void Init()
         {
             var deviceList = await UsbSerial.listAvailableDevicesAsync();
@@ -67,14 +69,8 @@ namespace SimonSaysSOL
                 SetPixel(i, red, green, blue);
             }
         }
-        public class RGB
-        {
-            public byte red;
-            public byte green;
-            public byte blue;
-        }
 
-        private static void SetPixel(int pixel, RGB color)
+        public static void SetPixel(int pixel, RGB color)
         {
             SetPixel((byte)pixel, color.red, color.green, color.blue);
         }
@@ -165,6 +161,7 @@ namespace SimonSaysSOL
         private static void OnConnectionEstablished()
         {
             timeout.Stop();
+            ready();
             Debug.WriteLine("Success: Connection Established");
         }
 

@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Maker.Serial;
 using Microsoft.Maker.RemoteWiring;
 using System.Diagnostics;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -32,20 +34,82 @@ namespace SimonSaysSOL
             this.InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        private class DummyLEDController : ILEDController
         {
-            LEDStrip.Init();
+            private List<Color> colors = new List<Color>(Constants.PIXELS);
+            private ILEDController led = new LEDPatterns();
+
+            public void Clear()
+            {
+                colors.Clear();
+                led.Clear();
+                Debug.WriteLine("Clear");
+            }
+
+            public void LoseGame()
+            {
+                Debug.WriteLine("Game lost!");
+                //led.LoseGame();
+                Task.Delay(1000).Wait();
+            }
+
+            public void SetColor(int index, Color color)
+            {
+                while (colors.Count <= index) colors.Add(Color.Black);
+                colors[index] = color;
+                foreach (var c in colors)
+                    Debug.Write(c + " ");
+                Debug.WriteLine("");
+                led.SetColor(index, color);
+            }
+
+            public void WinGame()
+            {
+                Debug.WriteLine("Game won!");
+                //led.WinGame();
+                Task.Delay(1000).Wait();
+            }
+
+            public void WinRound()
+            {
+                Debug.WriteLine("Round won!");
+                //led.WinRound();
+                Task.Delay(1000).Wait();
+            }
         }
 
-        /// <summary>
-        /// This button callback is invoked when the buttons are pressed on the UI. It determines which
-        /// button is pressed and sets the LEDs appropriately
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            AudioPlayer.SetUp(Dispatcher);
+
+            LEDStrip.Init();
+
+            LEDStrip.ready += () =>
+            {
+                LEDStrip.Clear();
+
+                Simon game = new Simon(new DummyLEDController());
+
+                foreach (var c in Constants.Colors)
+                {
+                    new Button(c).ButtonPressed += (s) =>
+
+                    {
+                        if (game.State != GameState.Playing) return;
+
+                        game.Play(s.Color);
+                    };
+                }
+
+                game.StartRound();
+            };
+        }
+
         private async void FlipOut_Click(object sender, RoutedEventArgs e)
         {
-            LEDStrip.FREAKOUT(10);
+            //LEDStrip.FREAKOUT(10);
              //LEDStrip.SetAllPixelsAndUpdate((byte)r.Next(256), (byte)r.Next(256), (byte)r.Next(256));
             //await Task.Delay(100);
         }
