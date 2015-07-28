@@ -146,14 +146,14 @@ namespace App2
         private RGB Wheel(byte WheelPos) {
           WheelPos = 255 - WheelPos;
           if(WheelPos < 85) {
-            return RGB(255 - WheelPos * 3, 0, WheelPos * 3);
+            return new RGB(255 - WheelPos * 3, 0, WheelPos * 3);
           }
           if(WheelPos < 170) {
             WheelPos -= 85;
-            return RGB(0, WheelPos * 3, 255 - WheelPos * 3);
+            return new RGB(0, WheelPos * 3, 255 - WheelPos * 3);
           }
           WheelPos -= 170;
-          return RGB(WheelPos * 3, 255 - WheelPos * 3, 0);
+          return new RGB(WheelPos * 3, 255 - WheelPos * 3, 0);
         }
 
 
